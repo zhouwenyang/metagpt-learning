@@ -112,19 +112,19 @@ class SimpleReviewer(Role):
         self.set_actions([SimpleWriteReview])
         self._watch([SimpleWriteTest])
 
-
 # 异步定义主函数，接收四个参数，分别为idea（想要实现的功能），investment（投入的资源），
 # n_round（执行的轮数），add_human（是否添加人工干预）
 async def main(
     idea: str = "write a function that sum two numbers", 
     investment: float = 3.0,  # 默认的投入是3.0
-    n_round: int = 8,  # 默认执行8轮
+    n_round: int = 6,  # 默认执行6轮
     add_human: bool = False,  # 默认不添加人工干预
 ):
     # 在日志中记录idea
     logger.info(idea)
 
-    # 实例化一个Team对象
+    # 团队:拥有一个或多个角色(代理)、SOP(标准操作程序)和用于即时消息传递的环境。
+    # 专门用于任何多代理活动，例如协作编写可执行代码。
     team = Team()
     # 使用hire方法聘用角色，这里分别是SimpleCoder，SimpleTester，SimpleReviewer
     # 其中，SimpleReviewer根据add_human参数决定是否为人工
@@ -138,7 +138,7 @@ async def main(
 
     # 对team进行投资，投资量为investment
     team.invest(investment=investment)
-    # 使用run_project运行项目，项目内容为idea
+    # 使用run_project启动一个项目，项目要干的事情来自：idea
     team.run_project(idea)
     # 使用team的run方法开始执行工作，工作轮数为n_round
     await team.run(n_round=n_round)
